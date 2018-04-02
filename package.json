@@ -1,0 +1,13 @@
+{
+  "name": "app-sam",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "package": "aws cloudformation package --template-file template.yaml --s3-bucket app-sam --output-template-file packaged-template.yaml",
+    "deploy": "aws cloudformation deploy --template-file packaged-template.yaml --stack-name app-sam-1-stack --capabilities CAPABILITY_IAM"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
