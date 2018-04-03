@@ -1,17 +1,45 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  HelloTwitchViewers:
+  PutTwitchViewers:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.handler
+      Handler: index.putViewers
       Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Environment: 
+        Variables:
+          TABLE_NAME: !Ref TwitchViewers
       Events:
         HelloTwitchAPI:
           Type: Api
           Properties:
-            Path: /hello-twitch
-            Method: GET
+            Path: /viewers
+            Method: POST
+  GetTwitchViewers:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getViewers
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Environment: 
+        Variables:
+          TABLE_NAME: !Ref TwitchViewers
+      Events:
+        HelloTwitchAPI:
+          Type: Api
+          Properties:
+            Path: /viewers
+            Method: GET          
+  TwitchViewers:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: viewersId
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
 
   
 
